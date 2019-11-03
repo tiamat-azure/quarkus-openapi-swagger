@@ -8,7 +8,6 @@ Initialize the project :
 
     mvn io.quarkus:quarkus-maven-plugin:0.27.0:create \
         -DprojectGroupId=nc.opt \
-        -DprojectGroupId=nc.opt \
         -DprojectArtifactId=quarkus-openapi-swagger \
         -DclassName="nc.opt.openapi.FruitResource" \
         -Dpath="/fruits" \
