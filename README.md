@@ -5,7 +5,7 @@ Official guide here : https://quarkus.io/guides/openapi-swaggerui-guide
 # Step by step
 
 Initialize the project :
->`mvn io.quarkus:quarkus-maven-plugin:0.27.0:create \`
+    mvn io.quarkus:quarkus-maven-plugin:0.27.0:create \
 >`  -DprojectGroupId=nc.opt \`
 >`  -DprojectGroupId=nc.opt \`
 >`  -DprojectArtifactId=quarkus-openapi-swagger \`
