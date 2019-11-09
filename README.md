@@ -210,3 +210,29 @@ Test the API
 
 ![swagger-ui-2](images/swagger-ui-2.jpg)
 
+## Build native image (bonus)
+
+Edit Dockerfile.native to enable multistage docker build with distroless target image :
+
+    FROM quay.io/quarkus/centos-quarkus-maven:19.2.1 AS build
+    COPY src /usr/src/app/src
+    COPY pom.xml /usr/src/app
+    USER root
+    RUN chown -R quarkus /usr/src/app
+    USER quarkus
+    RUN mvn -f /usr/src/app/pom.xml -Pnative clean package
+
+    ## Stage 2 : create the docker final image
+    FROM cescoffier/native-base:latest
+    COPY --from=build /usr/src/app/target/*-runner /application
+    EXPOSE 8080
+    CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
+
+Then, build the image with:
+
+    docker build -f src/main/docker/Dockerfile.native -t tiamat.azure/quarkus-openapi-swagger .
+
+Then run the container using:
+
+    docker run -i --rm -p 8080:8080 tiamat.azure/quarkus-openapi-swagger
+
