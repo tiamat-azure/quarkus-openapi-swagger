@@ -4,6 +4,8 @@ Official guide here : https://quarkus.io/guides/openapi-swaggerui-guide
 
 # Step by step
 
+## Create Quarkus project
+
 Initialize the project :
 
     mvn io.quarkus:quarkus-maven-plugin:0.27.0:create \
@@ -21,7 +23,7 @@ Compile :
 Test the application landing page : http://localhost:8080
 ![quarkus-landing-page](images/quarkus-landing-page.jpg)
 
-Create REST endpoints
+## Create REST endpoints
 
 Fruit :
 
@@ -41,7 +43,7 @@ Fruit :
         }
     }
 
-FruitsResource :
+FruitResource :
 
     package nc.opt.openapi;
 
@@ -140,4 +142,33 @@ FruitResourceTest :
 Test :
 
     mvn test
+
+## Add OpenAPI
+
+Add OpenAPI Quarkus extension :
+
+    mvn quarkus:add-extension -Dextensions="openapi"
+
+Launch app :
+
+    mvn compile quarkus:dev
+
+Test :
+
+    curl http://localhost:8080/openapi
+
+## Add favicon.ico (bonus)
+
+This is to prevent getting log errors.
+
+Create you favicon (online generator used : https://www.favicon-generator.org/)
+Copy the image in 
+
+    src/main/resources/favicon.ico
+
+Edit index.html
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
 
