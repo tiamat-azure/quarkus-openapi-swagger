@@ -238,3 +238,7 @@ Then run the container using:
 
     docker run -i --rm -p 8080:8080 tiamat.azure/quarkus-openapi-distroless
 
+Then test:
+    http://localhost:8080/openapi-ui 
+
+
