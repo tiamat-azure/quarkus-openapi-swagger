@@ -20,3 +20,124 @@ Compile :
 
 Test the application landing page : http://localhost:8080
 ![quarkus-landing-page](images/quarkus-landing-page.jpg)
+
+Create REST endpoints
+
+Fruit :
+
+    package nc.opt.openapi;
+
+    public class Fruit {
+
+        public String name;
+        public String description;
+
+        public Fruit() {
+        }
+
+        public Fruit(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+    }
+
+FruitsResource :
+
+    package nc.opt.openapi;
+
+    import java.util.Collections;
+    import java.util.LinkedHashMap;
+    import java.util.Set;
+
+    import javax.ws.rs.*;
+    import javax.ws.rs.core.MediaType;
+
+
+    @Path("/fruits")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public class FruitResource {
+
+        private Set<Fruit> fruits = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
+
+        public FruitResource() {
+            fruits.add(new Fruit("Apple", "Winter fruit"));
+            fruits.add(new Fruit("Pineapple", "Tropical fruit"));
+        }
+
+        @GET
+        public Set<Fruit> list() {
+            return fruits;
+        }
+
+        @POST
+        public Set<Fruit> add(Fruit fruit) {
+            fruits.add(fruit);
+            return fruits;
+        }
+
+        @DELETE
+        public Set<Fruit> delete(Fruit fruit) {
+            fruits.removeIf(existingFruit -> existingFruit.name.contentEquals(fruit.name));
+            return fruits;
+        }
+    }
+
+
+FruitResourceTest :
+
+    package nc.opt.openapi;
+
+    import io.quarkus.test.junit.QuarkusTest;
+    import org.junit.jupiter.api.Test;
+
+    import javax.ws.rs.core.MediaType;
+
+    import static io.restassured.RestAssured.given;
+    import static org.hamcrest.CoreMatchers.is;
+    import static org.hamcrest.Matchers.containsInAnyOrder;
+
+    @QuarkusTest
+    public class FruitResourceTest {
+
+        @Test
+        public void testList() {
+            given()
+                    .when().get("/fruits")
+                    .then()
+                    .statusCode(200)
+                    .body("$.size()", is(2),
+                            "name", containsInAnyOrder("Apple", "Pineapple"),
+                            "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+        }
+
+        @Test
+        public void testAdd() {
+            given()
+                    .body("{\"name\": \"Pear\", \"description\": \"Winter fruit\"}")
+                    .header("Content-Type", MediaType.APPLICATION_JSON)
+                    .when()
+                    .post("/fruits")
+                    .then()
+                    .statusCode(200)
+                    .body("$.size()", is(3),
+                            "name", containsInAnyOrder("Apple", "Pineapple", "Pear"),
+                            "description", containsInAnyOrder("Winter fruit", "Tropical fruit", "Winter fruit"));
+
+            given()
+                    .body("{\"name\": \"Pear\", \"description\": \"Winter fruit\"}")
+                    .header("Content-Type", MediaType.APPLICATION_JSON)
+                    .when()
+                    .delete("/fruits")
+                    .then()
+                    .statusCode(200)
+                    .body("$.size()", is(2),
+                            "name", containsInAnyOrder("Apple", "Pineapple"),
+                            "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+        }
+    }
+
+Test :
+
+    mvn test
+
