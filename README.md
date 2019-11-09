@@ -163,6 +163,8 @@ This is to prevent getting log errors.
 
 Create you favicon (online generator used : https://www.favicon-generator.org/)
 
+![quarkus-favicon](src/main/resources/favicon.ico)
+
 Copy the image in 
 
     src/main/resources/favicon.ico
