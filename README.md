@@ -162,6 +162,7 @@ Test :
 This is to prevent getting log errors.
 
 Create you favicon (online generator used : https://www.favicon-generator.org/)
+
 Copy the image in 
 
     src/main/resources/favicon.ico
