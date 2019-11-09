@@ -210,7 +210,7 @@ Test the API
 
 ![swagger-ui-2](images/swagger-ui-2.jpg)
 
-## Build native image (bonus)
+## Build native docker image (bonus)
 
 Edit Dockerfile.native to enable multistage docker build with distroless target image :
 
@@ -228,11 +228,13 @@ Edit Dockerfile.native to enable multistage docker build with distroless target 
     EXPOSE 8080
     CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
 
+Don't forget to comment the content of the .dockerignore file
+
 Then, build the image with:
 
-    docker build -f src/main/docker/Dockerfile.native -t tiamat.azure/quarkus-openapi-swagger .
+    docker build -f src/main/docker/Dockerfile.native -t tiamat.azure/quarkus-openapi-distroless .
 
 Then run the container using:
 
-    docker run -i --rm -p 8080:8080 tiamat.azure/quarkus-openapi-swagger
+    docker run -i --rm -p 8080:8080 tiamat.azure/quarkus-openapi-distroless
 
