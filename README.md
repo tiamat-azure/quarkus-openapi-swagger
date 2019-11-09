@@ -184,3 +184,29 @@ Force disabling the scan of the REST resources by editing application.properties
 
     mp.openapi.scan.disable=true
 
+Test
+
+    curl http://localhost:8080/openapi
+
+## Activate Swagger UI
+
+Activate Swagger UI for production environment as well :
+
+    quarkus.swagger-ui.always-include=true
+
+Edit custom swagger ui URL :
+
+    quarkus.swagger-ui.path=/openapi-ui
+
+Launch :
+
+    mvn compile quarkus:dev
+
+Go to : http://localhost:8080/openapi-ui
+
+![swagger-ui-1](images/swagger-ui-1.jpg)
+
+Test the API
+
+![swagger-ui-2](images/swagger-ui-2.jpg)
+
