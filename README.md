@@ -174,4 +174,13 @@ Edit index.html
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
+## Loading OpenAPI Schema From Static Files
+
+Copy the openapi file into :
+
+    src/main/resources/META-INF/openapi.yaml
+
+Force disabling the scan of the REST resources by editing application.properties file :
+
+    mp.openapi.scan.disable=true
 
