@@ -241,4 +241,10 @@ Then run the container using:
 Then test:
     http://localhost:8080/openapi-ui 
 
+Consult docker image tiny size
+
+    docker images
+
+    REPOSITORY                                        TAG                 IMAGE ID            CREATED             SIZE
+    tiamat.azure/quarkus-openapi-distroless           latest              9b35f455736a        35 minutes ago      53.8MB
 
